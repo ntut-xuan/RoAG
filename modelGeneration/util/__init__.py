@@ -77,14 +77,16 @@ def generate_uvs_box_projection_with_tiling(mesh: Trimesh, tile_scale=(1.0, 1.0)
         else:  # Z-dominant → project on XY
             uv = verts[:, [0, 1]]
 
+
+        uv = uv / 100.0
         # Normalize to 0–1 in local face UV space
-        uv_min = uv.min(axis=0)
-        uv_max = uv.max(axis=0)
-        uv_range = numpy.maximum(uv_max - uv_min, 1e-6)
-        uv_normalized = (uv - uv_min) / uv_range
+        # uv_min = uv.min(axis=0)
+        # uv_max = uv.max(axis=0)
+        # uv_range = numpy.maximum(uv_max - uv_min, 1e-6)
+        # uv_normalized = (uv - uv_min) / uv_range
 
         for j, v_idx in enumerate(face):
-            uv_accum[v_idx].append(uv_normalized[j])
+            uv_accum[v_idx].append(uv[j])
 
     # Average accumulated UVs for each vertex (simple blending for shared verts)
     for i in range(len(uvs)):

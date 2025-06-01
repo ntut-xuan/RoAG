@@ -91,7 +91,7 @@ class Wall:
                 'holes': numpy.array(holes),
             }
         
-        t = triangle.triangulate(A, 'p')
+        t = triangle.triangulate(A, 'pqa3000.0')
 
         clipped_wall_3d = convert_2d_to_3d(self.origin, t["vertices"], self.u_vec, self.v_vec)
 

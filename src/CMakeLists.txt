@@ -7,9 +7,11 @@ add_executable(ArchGen
     ./core/opengl_drawable.cpp
     ./core/object.cpp
     ./core/stb_image.cpp
+    ./core/shodow_map.cpp
     
     ./archgen/light.cpp
     ./archgen/archgen.cpp
+    ./archgen/model.cpp
 )
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE SHADER_DIR="${CMAKE_CURRENT_SOURCE_DIR}/shaders/")

@@ -2,7 +2,6 @@ import numpy
 import shapely
 from shapely import LinearRing
 from shapely.geometry import MultiPolygon, Polygon
-from trimesh.caching import sha256
 from core.wall import Wall
 from util import offset_polygon
 

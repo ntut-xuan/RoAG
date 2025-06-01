@@ -69,8 +69,10 @@ if __name__ == "__main__":
         wall_model = Model()
         print(f"Processing floor: {floor['name']}")
         height: float = floor["height"]
-        doors = convert_doors_to_door_objects(floor["door"], height, floor_z)
-        windows = convert_windows_to_window_objects(floor["window"], floor_z)
+        door_in_input = floor.get("door", [])
+        window_in_input = floor.get("window", [])
+        doors = convert_doors_to_door_objects(door_in_input, height, floor_z)
+        windows = convert_windows_to_window_objects(window_in_input, floor_z)
 
         if not floor["enable"]:
             continue

@@ -1,5 +1,4 @@
 #include <sstream>
-#include <string>
 #include <fstream>
 
 #include "glad/glad.h"
@@ -8,9 +7,10 @@
 
 #include "opengl_shader.hpp"
 
-void Shader::Init(){
+void Shader::Init(std::string shaderName, bool hasGeometryShader){
     spdlog::info("Shader: Init Phase");
-    Shader::BindProgram();
+    this->shaderName = shaderName;
+    Shader::BindProgram(hasGeometryShader);
 }
 
 unsigned int Shader::LoadShader(std::string filepath, ShaderType type){
@@ -45,7 +45,7 @@ unsigned int Shader::LoadShader(std::string filepath, ShaderType type){
 unsigned int Shader::LoadVertexShader(){
     spdlog::info("Shader: Load vertex shader and compile.");
 
-    unsigned vertex_shader_id = LoadShader(SHADER_DIR "blinn-phong.vert", ShaderType::VERTEX);
+    unsigned vertex_shader_id = LoadShader(SHADER_DIR + this->shaderName + ".vert", ShaderType::VERTEX);
 
     return vertex_shader_id;
 }
@@ -53,26 +53,45 @@ unsigned int Shader::LoadVertexShader(){
 unsigned int Shader::LoadFragmentShader(){
     spdlog::info("Shader: Load fragment shader and compile.");
 
-    unsigned fragment_shader_id = LoadShader(SHADER_DIR "blinn-phong.frag", ShaderType::FRAGMENT);
+    unsigned fragment_shader_id = LoadShader(SHADER_DIR + this->shaderName + ".frag", ShaderType::FRAGMENT);
 
     return fragment_shader_id;
 }
 
-void Shader::BindProgram(){
+unsigned int Shader::LoadGeometryShader(){
+    spdlog::info("Shader: Load geometry shader and compile.");
+
+    unsigned geometry_shader_id = LoadShader(SHADER_DIR + this->shaderName + ".geom", ShaderType::GEOMETRY);
+
+    return geometry_shader_id;
+}
+
+void Shader::BindProgram(bool hasGeometryShader){
     spdlog::info("Shader: Load shaders and bind program.");
 
     unsigned int vertex_id = LoadVertexShader();
     unsigned int fragment_id = LoadFragmentShader();
+    unsigned int geometry_id = 0;
+    if(hasGeometryShader){
+        geometry_id = LoadGeometryShader();
+    }
 
     shader_program_id = glCreateProgram();
     glAttachShader(shader_program_id, vertex_id);
     glAttachShader(shader_program_id, fragment_id);
+    if(hasGeometryShader){
+        glAttachShader(shader_program_id, geometry_id);
+    }
     glLinkProgram(shader_program_id);
 
     CheckLinkStatus();
 
     glDeleteShader(vertex_id);
     glDeleteShader(fragment_id);
+    if (hasGeometryShader) {
+      glDeleteShader(geometry_id);
+    }
+
 }
 
 void Shader::CheckCompileStatus(unsigned shader_id, ShaderType type){

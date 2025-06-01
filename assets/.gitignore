@@ -1,3 +1,6 @@
 obj/*.obj
 obj/*.mtl
 obj/*.png
+texture/*.jpg
+!texture/ground.jpg
+!texture/wall.png
