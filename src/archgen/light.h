@@ -23,7 +23,7 @@ private:
     }
     else if (mode == DIRECTIONAL) {
       glm::mat4 lightProjection =
-        glm::ortho(-150.0f, 150.0f, -150.0f, 150.0f, -150.0f, 150.0f);
+        glm::ortho(-450.0f, 450.0f, -450.0f, 450.0f, -450.0f, 450.0f);
       glm::mat4 lightView = glm::lookAt(-direction, glm::vec3(0.0f, 0.0f, 0.0f),
                                         glm::vec3(0.0f, 1.0f, 0.0f));
       lightSpaceMatrixes[0] = lightProjection * lightView;

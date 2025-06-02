@@ -50,6 +50,7 @@ void ArchGen::GenShadowMap(std::shared_ptr<Shader> shader, bool directional, Cam
     light->setShadowShaderUniform(shader.get());
   }
   else {
+    pointLight->SetPosition(camera->GetCameraPos() + camera->GetCameraFront());
     pointLight->setShadowShaderUniform(shader.get());
   }
   for (auto &object : objects) {
